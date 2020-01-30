@@ -20,23 +20,59 @@ namespace AmazonGiftCards
 
         private void insertText_Click(object sender, EventArgs e)
         {
-            Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var firstSet = new string(Enumerable.Repeat(chars, 4)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-            var secondSet = new string(Enumerable.Repeat(chars, 6)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-            var thirdSet = new string(Enumerable.Repeat(chars, 5)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
+            MessageBox.Show("Please first login with Gmail, Twitter or Facebook.", "Amazon Gift Cards",
+   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //Random random = new Random();
+            //const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            //var firstSet = new string(Enumerable.Repeat(chars, 4)
+            //  .Select(s => s[random.Next(s.Length)]).ToArray());
+            //var secondSet = new string(Enumerable.Repeat(chars, 6)
+            //  .Select(s => s[random.Next(s.Length)]).ToArray());
+            //var thirdSet = new string(Enumerable.Repeat(chars, 4)
+            //  .Select(s => s[random.Next(s.Length)]).ToArray());
 
 
-            label1.Text = $"{firstSet}-{secondSet}-{thirdSet}";
-            label1.Refresh();
+            //label1.Text = $"{firstSet}-{secondSet}-{thirdSet}";
+            //label1.Refresh();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void gmail_btn(object sender, EventArgs e)
+        {
+            Form2 myForm = new Form2(this.label3.Text);
+            this.Hide();
+            myForm.ShowDialog();
+            Form1 myForm1 = new Form1();
+            this.Hide();
+            myForm1.ShowDialog();
+            this.Close();
+        }
+
+        private void twitterButton_Click(object sender, EventArgs e)
+        {
+            Form2 myForm = new Form2(this.label4.Text);
+            this.Hide();
+            myForm.ShowDialog();
+            Form1 myForm1 = new Form1();
+            this.Hide();
+            myForm1.ShowDialog();
+            this.Close();
+        }
+
+        private void facebookButton_Click(object sender, EventArgs e)
+        {
+            Form2 myForm = new Form2(this.label5.Text);
+            this.Hide();
+            myForm.ShowDialog();
+            Form1 myForm1 = new Form1();
+            this.Hide();
+            myForm1.ShowDialog();
+            this.Close();
+        }
     }
+
 }
